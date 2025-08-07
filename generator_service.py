@@ -20,7 +20,7 @@ from docxtpl import DocxTemplate
 
 # --- Inicialização da Aplicação FastAPI ---
 app = FastAPI(
-    title="recANALYSIS Document Generator",
+    title="Monster Factory - Document Generator",
     description="Serviço para gerar documentos .docx e .pdf a partir de templates.",
     version="1.1.0"
 )

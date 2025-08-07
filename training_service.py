@@ -10,7 +10,7 @@ import io
 
 # --- Inicialização da Aplicação FastAPI ---
 app = FastAPI(
-    title="recANALYSIS Training Service",
+    title="Monster Factory - Training Service",
     description="Serviço para extrair e formatar dados de feedback para fine-tuning de modelos de IA.",
     version="1.0.0"
 )
