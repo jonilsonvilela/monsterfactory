@@ -8,7 +8,6 @@ WORKDIR /app
 RUN pip install --no-cache-dir fastapi "uvicorn[standard]"
 
 COPY training_service.py .
-COPY feedback.db .
 
 EXPOSE 8002
 

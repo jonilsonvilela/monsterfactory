@@ -9,3 +9,5 @@ faiss-cpu
 docxtpl
 langchain-community
 requests
+langchain
+langgraph
