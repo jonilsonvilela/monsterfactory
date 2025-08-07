@@ -1,0 +1,30 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile.api
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    env_file:
+      - .env
+
+  generator:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8001:8001"
+    volumes:
+      - ./output:/app/output
+      - ./templates:/app/templates
+
+  training:
+    build:
+      context: .
+      dockerfile: Dockerfile.training
+    ports:
+      - "8002:8002"
+    volumes:
+      - .:/app
