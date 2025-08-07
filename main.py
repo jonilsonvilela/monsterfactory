@@ -135,14 +135,10 @@ async def start_analysis(
         # Inicia a tarefa de análise de súmula que já conhecemos
         asyncio.create_task(rag_ai_processing(job_id, form_type, file_content, vector_store))
 
-    elif assistant_type == "gerar_email":
-        # --- Placeholder para o Futuro Monstro de E-mails ---
-        # Aqui, no futuro, chamaríamos a função do assistente de e-mail.
-        # Por agora, retornamos um erro indicando que não está implementado.
-        raise HTTPException(status_code=501, detail="O assistente 'gerar_email' ainda não foi implementado.")
-
     else:
-        raise HTTPException(status_code=400, detail="Tipo de assistente inválido.")
+        # Se no futuro houverem outros assistentes, a lógica de roteamento entrará aqui.
+        # Por agora, qualquer outra coisa é um erro.
+        raise HTTPException(status_code=400, detail="Tipo de assistente inválido ou não implementado.")
 
     return {"job_id": job_id}
 
