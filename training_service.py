@@ -56,7 +56,13 @@ def get_training_data():
             # A 'completion' (ou 'output') é a resposta corrigida pelo humano.
             # O fine-tuning ensinará o modelo: "Quando ver um contexto como este, gere uma resposta como esta".
             prompt_text = entry['rag_context']
-            corrected_data = json.loads(entry['corrected_response'])
+            try:
+                corrected_data = json.loads(entry['corrected_response'])
+            except json.JSONDecodeError as e:
+                raise HTTPException(
+                    status_code=400,
+                    detail=f"Dados inválidos em 'corrected_response': {e.msg}"
+                )
 
             # Formata a saída como um único objeto JSON por linha
             training_example = {
@@ -74,6 +80,11 @@ def get_training_data():
         )
 
     except sqlite3.OperationalError:
-         raise HTTPException(status_code=500, detail=f"Erro ao aceder à base de dados '{DB_FILE}'. Verifique se o arquivo existe e se o serviço tem permissão de leitura.")
+        raise HTTPException(
+            status_code=500,
+            detail=f"Erro ao aceder à base de dados '{DB_FILE}'. Verifique se o arquivo existe e se o serviço tem permissão de leitura."
+        )
+    except HTTPException as e:
+        raise e
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Ocorreu um erro inesperado: {e}")

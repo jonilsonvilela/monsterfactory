@@ -4,6 +4,7 @@
 import fitz  # PyMuPDF
 import httpx
 import json
+from fastapi import HTTPException
 from langchain_community.vectorstores import FAISS
 
 # Importa as peças específicas deste assistente
@@ -47,7 +48,14 @@ def run_analysis(form_type: str, file_content: bytes, vector_store: FAISS, gemin
     
     result = response.json()
     if 'candidates' in result and result['candidates']:
-        extracted_data = json.loads(result['candidates'][0]['content']['parts'][0]['text'])
+        try:
+            extracted_text = result['candidates'][0]['content']['parts'][0]['text']
+            extracted_data = json.loads(extracted_text)
+        except json.JSONDecodeError as e:
+            raise HTTPException(
+                status_code=400,
+                detail=f"Dados inválidos retornados pela API Gemini: {e.msg}"
+            )
         return {
             "extracted_data": extracted_data,
             "rag_context": rag_context
